@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>British Monarchs</title>
+    <script>
+        async function getInterestingFact() {
+            const monarchName = document.getElementById("monarchName").value;
+
+            const response = await fetch('/api/interesting-fact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ monarchName })
+            });
+
+            const data = await response.json();
+            const fact = data.choices && data.choices[0] && data.choices[0].text;
+            document.getElementById("interestingFact").innerHTML = `Interesting fact: ${fact.trim()}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>British Monarchs</h1>
+    <p>Enter the name of a British monarch to get an interesting fact about them:</p>
+    <input type="text" id="monarchName" placeholder="Monarch Name">
+    <button onclick="getInterestingFact()">Submit</button>
+    <p id="interestingFact"></p>
+</body>
+</html>
